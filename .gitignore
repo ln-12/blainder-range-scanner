@@ -1,0 +1,15 @@
+# python temp paths
+__pycache__/
+*.py[cod]
+
+*.blend
+*.blend1
+*.blend2
+
+.vscode/settings.json
+ 
+*.las
+*.hdf5
+*.csv
+*.png
+*.xml

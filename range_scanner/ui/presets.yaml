@@ -1,0 +1,119 @@
+- name: Generic lidar
+  description: Some generic lidar
+  category: lidar
+  type: rotating
+  reflectivityLower: 0.5
+  distanceLower: 50.0
+  reflectivityUpper: 0.9
+  distanceUpper: 120.0
+  fovX: 30.0
+  xStepDegree: 1.0
+  fovY: 90.0
+  yStepDegree: 1.0
+  rotationsPerSecond: 10.0        
+
+- name: Generic sonar
+  description: Some generic sonar
+  category: sonar
+  type: sideScan
+  reflectivityLower: 0.5
+  distanceLower: 50.0
+  reflectivityUpper: 0.9
+  distanceUpper: 120.0
+  fovDown: 90.0
+  resolution: 2.0
+  waterProfile:
+    - depth: 0.0
+      speed: 1.333
+      density: 1.0
+    - depth: 3.77
+      speed: 1.4
+      density: 1.1
+    - depth: 1.0
+      speed: 1.0
+      density: 1.1
+    - depth: 2.5
+      speed: 1.52
+      density: 1.3
+    - depth: 7.5
+      speed: 1.2
+      density: 1.4
+    - depth: 10
+      speed: 1.33321
+      density: 1.5
+
+# https://autonomoustuff.com/wp-content/uploads/2019/05/VLP-32C_Ultra_Puck-whitelabel.pdf
+- name: Velodyne UltraPuck
+  description: Velodyne UltraPuck
+  category: lidar
+  type: rotating
+  reflectivityLower: 0.01
+  distanceLower: 0.0
+  reflectivityUpper: 0.8
+  distanceUpper: 200.0
+  fovX: 360.0
+  xStepDegree: 0.2
+  fovY: 40.0
+  yStepDegree: 0.33
+  rotationsPerSecond: 20.0     
+
+# https://autonomoustuff.com/wp-content/uploads/2019/05/AlphaPuck_Datasheet_whitelabel.pdf
+- name: Velodyne AlphaPuck
+  description: Velodyne AlphaPuck
+  category: lidar
+  type: rotating
+  reflectivityLower: 0.01
+  distanceLower: 0.0
+  reflectivityUpper: 0.8
+  distanceUpper: 300.0
+  fovX: 360.0
+  xStepDegree: 0.1
+  fovY: 40.0
+  yStepDegree: 0.11
+  rotationsPerSecond: 20.0    
+
+# https://doi.org/10.3390/s17020286
+- name: Kinect v1 (default mode)
+  description: Microsoft Kinect for Windows v1 in default mode
+  category: tof
+  type: static
+  reflectivityLower: 0.0
+  distanceLower: 0.8
+  reflectivityUpper: 0.0
+  distanceUpper: 4.0
+  fovX: 57.0
+  resolutionX: 320
+  fovY: 43.0
+  resolutionY: 240
+  resolutionPercentage: 100.0
+#  frameRate: 30.0    
+
+- name: Kinect v1 (near mode)
+  description: Microsoft Kinect for Windows v1 in near mode
+  category: tof
+  type: static
+  reflectivityLower: 0.0
+  distanceLower: 0.4
+  reflectivityUpper: 0.0
+  distanceUpper: 3.5
+  fovX: 57.0
+  resolutionX: 320
+  fovY: 43.0
+  resolutionY: 240
+  resolutionPercentage: 100.0
+#  frameRate: 30.0  
+
+- name: Kinect v2
+  description: Microsoft Kinect for Windows v2
+  category: tof
+  type: static
+  reflectivityLower: 0.0
+  distanceLower: 0.5
+  reflectivityUpper: 0.0
+  distanceUpper: 4.5
+  fovX: 70.0
+  resolutionX: 512
+  fovY: 60.0
+  resolutionY: 424
+  resolutionPercentage: 100.0
+#  frameRate: 30.0    
