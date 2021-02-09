@@ -44,11 +44,11 @@ Supported formats:
 ## Table of Contents
 **[Installation](#installation)**<br>
 **[Dependencies](#dependencies)**<br>
-**[Usage (GUI)](#usage-(gUI))**<br>
-**[Usage (command line)](#usage-(command-line))**<br>
+**[Usage (GUI)](#usage-gui)**<br>
+**[Usage (command line)](#usage-command-line)**<br>
 **[Visualization](#visualization)**<br>
 **[Examples](#examples)**<br>
-**[Scene generation](#scene-generation)**<br>
+**[Scene generation](#automatic-scene-generation)**<br>
 **[Development](#development)**<br>
 **[About](#about)**<br>
 **[License](#license)**<br>
