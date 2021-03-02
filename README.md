@@ -487,4 +487,7 @@ You should have received a copy of the GNU General Public License along with thi
 
 <br />
 
+A brief summary of this license can be found here: https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)
+<br />
+
 Chair model used: [Low Poly Chair](https://free3d.com/de/3d-model/chair-255345.html)
