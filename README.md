@@ -2,6 +2,8 @@
 
 This Blender add-on enables you to simulate lidar, sonar and time of flight scanners in your scene. Each point of the generated point cloud is labeled with the object or part id that was set before the simulation. The obtained data can be exported in various formats to use it in machnie learning tasks (see [Examples](#examples) section).
 
+The paper can be found here: https://www.mdpi.com/1424-8220/21/6/2144
+
 ## Original scene
 
 <img src="images/part_segmentation_scene.png" width="500">
@@ -471,7 +473,7 @@ This add-on was developed by Lorenzo Neumann at [TU Bergakademie Freiberg](https
 
 Master thesis: *Lorenzo Neumann. "Generation of 3D training data for AI applications by simulation of ranging methods in virtual environments", 2020*.
 
-Paper: *S. Reitmann, Lorenzo Neumann and Bernhard Jung. "BLAINDER - A Blender AI Add-On for Generation of Semantically Labeled Depth Sensing Data". In: MDPI: Sensors (submitted)*.
+Paper: Reitmann, S.; Neumann, L.; Jung, B. BLAINDER—A Blender AI Add-On for Generation of Semantically Labeled Depth-Sensing Data. Sensors 2021, 21, 2144. https://doi.org/10.3390/s21062144
 
 <br /><br />
 
