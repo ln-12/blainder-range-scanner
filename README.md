@@ -59,8 +59,6 @@ Supported formats:
 
 ## Installation
 
-To clone the repository, you need to have [Git LFS](https://git-lfs.github.com/) installed.
-
 ### GUI usage
 
 1. Clone the repository. This might take some time as the examples are quite large.
