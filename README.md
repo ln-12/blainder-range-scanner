@@ -94,14 +94,14 @@ After installing the add-on, you see the panel shown below to install the missin
 
 Windows
 ```
-"C:\Program Files\Blender Foundation\Blender 2.83\2.83\python\bin\python.exe" -m pip install laspy h5py pascal_voc_writer pypng
+"C:\Program Files\Blender Foundation\Blender 2.83\2.83\python\bin\python.exe" -m pip install laspy h5py pascal_voc_writer pypng pyyaml
 ```
 
 *WARNING*: Make sure that the packages are installed inside `C:\program files\blender foundation\blender 2.83\2.83\python\lib\site-packages`, not `C:\users\USER\appdata\roaming\python\python37\site-packages\` or Blender won't find them!
 
 macOS
 ```
-/Applications/Blender.app/Contents/Resources/2.83/python/bin/python3.7m -m pip install laspy h5py pascal_voc_writer pypng
+/Applications/Blender.app/Contents/Resources/2.83/python/bin/python3.7m -m pip install laspy h5py pascal_voc_writer pypng pyyaml
 ```
 
 <br /><br />
