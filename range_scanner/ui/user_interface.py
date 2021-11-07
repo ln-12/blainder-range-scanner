@@ -16,6 +16,7 @@ bl_info = {
 
 import bpy
 from bpy import context
+import sys
 
 from bpy.props import (StringProperty,
                        BoolProperty,
@@ -88,18 +89,6 @@ import bpy
 import subprocess
 from collections import namedtuple
 
-Dependency = namedtuple("Dependency", ["module", "package", "name"])
-
-# Declare all modules that this add-on depends on. The package and (global) name can be set to None,
-# if they are equal to the module name. See import_module and ensure_and_import_module for the
-# explanation of the arguments.
-dependencies = (
-    Dependency(module="laspy", package=None, name=None), 
-    Dependency(module="h5py", package=None, name=None),
-    Dependency(module="pascal_voc_writer", package=None, name=None),
-    Dependency(module="png", package="pypng", name=None),
-)
-
 dependencies_installed = False
 
 def import_module(module_name, global_name=None):
@@ -141,7 +130,7 @@ def install_pip():
         os.environ.pop("PIP_REQ_TRACKER", None)
 
 
-def install_and_import_module(module_name, package_name=None, global_name=None):
+def install_and_import_module(module, importName):
     """
     Installs the package through pip and attempts to import the installed module.
     :param module_name: Module to import.
@@ -152,12 +141,6 @@ def install_and_import_module(module_name, package_name=None, global_name=None):
        the global_name under which the module can be accessed.
     :raises: subprocess.CalledProcessError and ImportError
     """
-
-    if package_name is None:
-        package_name = module_name
-
-    if global_name is None:
-        global_name = module_name
 
     # Blender disables the loading of user site-packages by default. However, pip will still check them to determine
     # if a dependency is already installed. This can cause problems if the packages is installed in the user
@@ -171,15 +154,17 @@ def install_and_import_module(module_name, package_name=None, global_name=None):
     os.environ["PYTHONNOUSERSITE"] = "1"
 
     try:
+        print(f"Installing {module}")
+
         # Try to install the package. This may fail with subprocess.CalledProcessError
-        subprocess.run([bpy.app.binary_path_python, "-m", "pip", "install", package_name], check=True)
+        subprocess.run([sys.executable, "-m", "pip", "install", module], check=True)
     finally:
         # Always restore the original environment variables
         os.environ.clear()
         os.environ.update(environ_orig)
 
     # The installation succeeded, attempt to import the module again
-    import_module(module_name, global_name)
+    import_module(importName)
 
 
 
@@ -195,10 +180,33 @@ class WM_OT_INSTALL_DEPENDENCIES(Operator):
     def execute(self, context):
         try:
             install_pip()
-            for dependency in dependencies:
-                install_and_import_module(module_name=dependency.module,
-                                          package_name=dependency.package,
-                                          global_name=dependency.name)
+
+            requirementsFile = open('requirements.txt', 'r')
+            requirements = requirementsFile.readlines()
+ 
+            importName = None
+
+            # Strips the newline character
+            for requirement in requirements:
+                stripped = requirement.strip()
+
+                if stripped.startswith("#/"):
+                    importName = stripped.split("#/")[1]
+                    continue
+
+                if stripped.startswith("#") or not stripped:
+                    continue
+
+                name, version = stripped.split("==")
+
+                if importName is None:
+                    importName = name
+
+                print(f"Checking {name}: version {version}, import {importName}")
+
+                install_and_import_module(module=stripped, importName=importName)
+
+                importName = None
         except (subprocess.CalledProcessError, ImportError) as err:
             print("ERROR: %s" % str(err))
             self.report({"ERROR"}, str(err))
@@ -220,8 +228,8 @@ class EXAMPLE_PT_DEPENDENCIES_PANEL(MAIN_PANEL, Panel):
         layout = self.layout
 
         lines = [f"You need to install some dependencies to use this add-on.",
-                 f" Click the button below to start (might require ",
-                 f"administrative privileges)."]
+                 f"Click the button below to start (requires to run blender",
+                 f"with administrative privileges on Windows)."]
 
         for line in lines:
             layout.label(text=line)
@@ -2338,15 +2346,40 @@ def register():
     missingDependency = None
 
     try:
-        for dependency in dependencies:
-            missingDependency = dependency
-            import_module(module_name=dependency.module, global_name=dependency.name)
+        requirementsFile = open('requirements.txt', 'r')
+        requirements = requirementsFile.readlines()
+
+        importName = None
+
+        # Strips the newline character
+        for requirement in requirements:
+            stripped = requirement.strip()
+
+            if stripped.startswith("#/"):
+                importName = stripped.split("#/")[1]
+                continue
+
+            if stripped.startswith("#") or not stripped:
+                continue
+
+            name, version = stripped.split("==")
+
+            if importName is None:
+                importName = name
+
+            print(f"Checking {name}: version {version}, import {importName}")
+
+            missingDependency = name
+            import_module(module_name=importName)
+
+            importName = None
+
         dependencies_installed = True
         missingDependency = None
 
         print("All dependencies found.")
     except ModuleNotFoundError:
-        print("WARNING: Missing dependency %s." % str(missingDependency.module))
+        print("ERROR: Missing dependency %s." % str(missingDependency))
         # Don't register other panels, operators etc.
         return
 

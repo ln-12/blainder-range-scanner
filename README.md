@@ -92,16 +92,18 @@ After installing the add-on, you see the panel shown below to install the missin
 
 ### Manual installation
 
+Open a terminal (as admin on Windows) and navigate into `blainder-range-scanner`. Then run on of the following commands depending on your system.
+
 Windows
 ```
-"C:\Program Files\Blender Foundation\Blender 2.83\2.83\python\bin\python.exe" -m pip install laspy h5py pascal_voc_writer pypng pyyaml
+"C:\Program Files\Blender Foundation\Blender 2.93\2.93\python\bin\python.exe" -m pip install -r requirements.txt
 ```
 
-*WARNING*: Make sure that the packages are installed inside `C:\program files\blender foundation\blender 2.83\2.83\python\lib\site-packages`, not `C:\users\USER\appdata\roaming\python\python37\site-packages\` or Blender won't find them!
+*WARNING*: Make sure that the packages are installed inside `C:\program files\blender foundation\blender 2.93\2.93\python\lib\site-packages`, not `C:\users\USER\appdata\roaming\python\python39\site-packages\` or Blender won't find them!
 
 macOS
 ```
-/Applications/Blender.app/Contents/Resources/2.83/python/bin/python3.7m -m pip install laspy h5py pascal_voc_writer pypng pyyaml
+/Applications/Blender.app/Contents/Resources/2.93/python/bin/python3.9m -m pip install -r requirements.txt
 ```
 
 <br /><br />
