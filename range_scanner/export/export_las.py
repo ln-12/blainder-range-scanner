@@ -7,16 +7,16 @@ def export(filePath, fileName, data, exportNoiseData, usePartIDs):
 
     # create header 
     # see https://laspy.readthedocs.io/en/latest/tut_background.html for info on point formats
-    hdr = laspy.header.Header(point_format=2)
+    header = laspy.LasHeader(point_format=2)
 
     # create output file path
     if usePartIDs:
-        outfile = laspy.file.File(os.path.join(filePath, "%s_parts.las" % fileName), mode="w", header=hdr)
+        outfile = laspy.LasData(header=header)
         
         # assign data
         outfile.pt_src_id = data[1]
     else:
-        outfile = laspy.file.File(os.path.join(filePath, "%s.las" % fileName), mode="w", header=hdr)
+        outfile = laspy.LasData(header=header)
     
         # assign data
         outfile.pt_src_id = data[0]
@@ -45,17 +45,20 @@ def export(filePath, fileName, data, exportNoiseData, usePartIDs):
     outfile.green = data[8] * 65535
     outfile.blue = data[9] * 65535
 
-    outfile.close()
-
+    if usePartIDs:
+        outfile.write(os.path.join(filePath, "%s_parts.las" % fileName))
+    else:
+        outfile.write(os.path.join(filePath, "%s.las" % fileName))
+    
     if exportNoiseData:
         # create output file path
         if usePartIDs:
-            outfile = laspy.file.File(os.path.join(filePath, "%s_noise_parts.las" % fileName), mode="w", header=hdr)
+            outfile = laspy.LasData(header=header)
             
             # assign data
             outfile.pt_src_id = data[1]
         else:
-            outfile = laspy.file.File(os.path.join(filePath, "%s_noise.las" % fileName), mode="w", header=hdr)
+            outfile = laspy.LasData(header=header)
         
             # assign data
             outfile.pt_src_id = data[0]
@@ -82,6 +85,9 @@ def export(filePath, fileName, data, exportNoiseData, usePartIDs):
         outfile.green = data[8] * 65535
         outfile.blue = data[9] * 65535
 
-        outfile.close()
-    
+        if usePartIDs:
+            outfile.write(os.path.join(filePath, "%s_noise_parts.las" % fileName))
+        else:
+            outfile.write(os.path.join(filePath, "%s_noise.las" % fileName))
+        
     print("Done.")
