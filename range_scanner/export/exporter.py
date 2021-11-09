@@ -2,11 +2,6 @@ import numpy as np
 import bpy
 import os
 
-from . import export_csv
-from . import export_segmented_image
-from . import export_rendered_image
-from . import export_depthmap
-
 class Exporter:
     def __init__(self, filePath, fileName, rawFileName, data, targets, categoryIDs, partIDs, materialMappings, exportNoiseData, width, height):
         # we need Blender's custom file path manipulation methods
@@ -65,13 +60,17 @@ class Exporter:
         export_hdf.export(self.filePath, self.rawFileName + fileNameExtra, self.mappedData, self.exportNoiseData)
 
     def exportCSV(self):
+        from . import export_csv
         export_csv.export(self.filePath, self.fileName, self.mappedData.transpose(), self.exportNoiseData)
 
     def exportSegmentedImage(self, exportPascalVoc):
+        from . import export_segmented_image
         export_segmented_image.export(self.filePath, self.fileName, self.data, self.partIDs, exportPascalVoc, self.width, self.height)
 
     def exportRenderedImage(self):
+        from . import export_rendered_image
         export_rendered_image.export(self.filePath, self.fileName)
 
     def exportDepthmap(self, depthMinDistance, depthMaxDistance):
+        from . import export_depthmap
         export_depthmap.export(self. filePath, self.fileName, self.data, depthMinDistance, depthMaxDistance, self.width, self.height)

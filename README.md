@@ -92,7 +92,7 @@ After installing the add-on, you see the panel shown below to install the missin
 
 ### Manual installation
 
-Open a terminal (as admin on Windows) and navigate into `blainder-range-scanner`. Then run on of the following commands depending on your system.
+Open a terminal (as admin on Windows) and navigate into `blainder-range-scanner/range_scanner`. Then run on of the following commands depending on your system.
 
 Windows
 ```

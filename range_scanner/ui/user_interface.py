@@ -181,7 +181,9 @@ class WM_OT_INSTALL_DEPENDENCIES(Operator):
         try:
             install_pip()
 
-            requirementsFile = open('requirements.txt', 'r')
+            requirementsPath = os.path.join(pathlib.Path(__file__).parent.parent.absolute(), "requirements.txt")
+            print("Reading dependencies from {0}".format(requirementsPath))
+            requirementsFile = open(requirementsPath, 'r')
             requirements = requirementsFile.readlines()
  
             importName = None
@@ -2346,7 +2348,9 @@ def register():
     missingDependency = None
 
     try:
-        requirementsFile = open('requirements.txt', 'r')
+        requirementsPath = os.path.join(pathlib.Path(__file__).parent.parent.absolute(), "requirements.txt")
+        print("Reading dependencies from {0}".format(requirementsPath))
+        requirementsFile = open(requirementsPath, 'r')
         requirements = requirementsFile.readlines()
 
         importName = None
