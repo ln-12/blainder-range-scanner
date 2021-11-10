@@ -50,17 +50,20 @@ def getMaterialColorAndMetallic(hit, materialMappings, depsgraph, debugOutput):
                     ior = node.inputs['IOR'].default_value
 
                     return MaterialProperty(rgba, 0.0, ior)
-                elif node.type == 'TEX_IMAGE':
-                    # image texture
-                    
-                    # retrieve color
-                    rgba = getUVPixelColor(hit.target.data, hit.faceIndex, hit.location, node.image)
-                    
-                    # retrieve metallic factor
-                    metallic = material.node_tree.nodes["Principled BSDF"].inputs['Metallic'].default_value
-
-                    return MaterialProperty(rgba, metallic, 0.0)
                 elif node.type == 'BSDF_PRINCIPLED':
+                    # check if an image texture is connected to the BSDF node
+                    connectedLinks = node.inputs['Base Color'].links
+                    if len(connectedLinks) > 0 and connectedLinks[0].from_node.type == "TEX_IMAGE":
+                        # image texture
+                    
+                        # retrieve color
+                        rgba = getUVPixelColor(hit.target.data, hit.faceIndex, hit.location, connectedLinks[0].from_node.image)
+                        
+                        # retrieve metallic factor
+                        metallic = node.inputs['Metallic'].default_value
+
+                        return MaterialProperty(rgba, metallic, 0.0)
+
                     # simple color
                     rgba = node.inputs['Base Color'].default_value
                     metallic = node.inputs['Metallic'].default_value
