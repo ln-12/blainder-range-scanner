@@ -16,13 +16,97 @@ def getSurfaceReflectivity(color):
     # better and unambiguously way: simply use the alpha channel
     return color[3]
 
-MaterialProperty = namedtuple('MaterialProperty', 'color metallic ior')
+class MaterialProperty:
+    def __init__(self, color, texture, metallic, ior):
+        self.color = color
+        self.texture = texture
+        self.metallic = metallic
+        self.ior = ior
+
+class Image:
+    def __init__(self, pixels, size):
+        self.pixels = pixels
+        self.size = size
+
+def getTargetMaterials(debugOutput, target):
+    materialCount = len(target.material_slots)
+    targetMaterials = np.empty(materialCount, dtype=MaterialProperty)
+
+    for materialIndex in range(materialCount):
+        material = target.material_slots[materialIndex].material
+
+        if material is not None:
+            if material.use_nodes == False:
+                # diffuse_color, metallic, specular_intensity, roughness
+                rgba = material.diffuse_color
+                metallic = material.metallic
+
+                targetMaterials[materialIndex] = MaterialProperty(rgba, None, metallic, 0.0)
+                continue
+            else:
+                # the easy way would be to get the active node:
+                # node = material.node_tree.nodes.active
+                # the problem here is that also no node can be active so this returns None
+
+                # instead, we get the Material Output node and look at the connected nodes
+                # see: https://blender.stackexchange.com/a/5471/95167
+                links = material.node_tree.nodes["Material Output"].inputs["Surface"].links
+
+                for link in links:
+                    # get the node of the connected link
+                    node = link.from_node
+
+                    # node tree
+                    if node.type == 'BSDF_GLASS':
+                        # glass
+                        rgba = node.inputs['Color'].default_value
+                        ior = node.inputs['IOR'].default_value
+
+                        targetMaterials[materialIndex] = MaterialProperty(rgba, None, 0.0, ior)
+                        continue
+                    elif node.type == 'BSDF_PRINCIPLED':
+                        # check if an image texture is connected to the BSDF node
+                        connectedLinks = node.inputs['Base Color'].links
+                        if len(connectedLinks) > 0 and connectedLinks[0].from_node.type == "TEX_IMAGE":
+                            # image texture
+                            image = connectedLinks[0].from_node.image
+                            texture = Image(image.pixels[:], image.size)
+
+                            # retrieve metallic factor
+                            metallic = node.inputs['Metallic'].default_value
+
+                            targetMaterials[materialIndex] = MaterialProperty(None, texture, metallic, 0.0)
+                            continue
+
+                        # no texture, just a simple color
+                        rgba = node.inputs['Base Color'].default_value
+                        metallic = node.inputs['Metallic'].default_value
+        
+                        targetMaterials[materialIndex] = MaterialProperty(rgba, None, metallic, 0.0)
+                        continue
+                    else:
+                        # unknown material
+                        print("Unknown material type for object %s!" % target.name)
+                        print(node.type)
+        else:
+            # no material set
+            if debugOutput:
+                print("WARNING: No material set for object %s!" % target.name)
+
+    return targetMaterials
 
 def getMaterialColorAndMetallic(hit, materialMappings, depsgraph, debugOutput):
     # each face can have an individual material so we need to get the correct one here
-    materialIndex = materialMappings[hit.target][hit.faceIndex]
-    material = hit.target.material_slots[materialIndex].material
 
+    materialIndex = materialMappings[hit.target][1][hit.faceIndex]
+    material = materialMappings[hit.target][0][materialIndex]
+
+    if material.texture is not None:
+        # retrieve color
+        material.color = getUVPixelColor(hit.target.data, hit.faceIndex, hit.location, material.texture)
+    
+    return material
+    """
     if material is not None:
         if material.use_nodes == False:
             # diffuse_color, metallic, specular_intensity, roughness
@@ -77,8 +161,9 @@ def getMaterialColorAndMetallic(hit, materialMappings, depsgraph, debugOutput):
         # no material set
         if debugOutput:
             print("WARNING: No material set for object %s!" % hit.target.name)
-    
+
     return None
+    """
 
 # source: https://blender.stackexchange.com/a/139399/95167
 def getUVPixelColor(mesh:Mesh, face_idx:int, point:Vector, image:Image):
@@ -95,14 +180,15 @@ def getUVPixelColor(mesh:Mesh, face_idx:int, point:Vector, image:Image):
     face = mesh.polygons[face_idx]
     
     # get uv coordinate based on nearest face intersection
-    uv_coord = getUVCoord(mesh, face, point, image)
+    uv_coord = getUVCoord(mesh, face, point, image.size)
     
     # retrieve rgba value at uv coordinate
-    rgba = getPixel(image, uv_coord)
+    rgba = getPixel(image.pixels, image.size, uv_coord)
+
     return rgba
 
 
-def getUVCoord(mesh:Mesh, face:MeshPolygon, point:Vector, image:Image):
+def getUVCoord(mesh:Mesh, face:MeshPolygon, point:Vector, imageSize):
     """ returns UV coordinate of target point in source mesh image texture
     mesh  -- mesh data from source object
     face  -- face object from mesh
@@ -133,7 +219,7 @@ def getUVCoord(mesh:Mesh, face:MeshPolygon, point:Vector, image:Image):
     uv_loc = Vector((uv_loc[0] % 1, uv_loc[1] % 1))
     
     # convert uv_loc in range(0,1) to uv coordinate
-    image_size_x, image_size_y = image.size
+    image_size_x, image_size_y = imageSize
     x_co = round(uv_loc.x * (image_size_x - 1))
     y_co = round(uv_loc.y * (image_size_y - 1))
     uv_coord = (x_co, y_co)
@@ -143,14 +229,14 @@ def getUVCoord(mesh:Mesh, face:MeshPolygon, point:Vector, image:Image):
 
 
 # reference: https://svn.blender.org/svnroot/bf-extensions/trunk/py/scripts/addons/uv_bake_texture_to_vcols.py
-def getPixel(img, uv_coord):
+def getPixel(uv_pixels, imageSize, uv_coord):
     """ get RGBA value for specified coordinate in UV image
     pixels    -- list of pixel data from UV texture image
     uv_coord  -- UV coordinate of desired pixel value
     """
-    uv_pixels = img.pixels # Accessing pixels directly is quite slow. Copy to new array and pass as an argument for massive performance-gain if you plan to run this function many times on the same image (img.pixels[:]).
-    
-    pixelNumber = (img.size[0] * int(uv_coord.y)) + int(uv_coord.x)
+    #uv_pixels = img.pixels # Accessing pixels directly is quite slow. Copy to new array and pass as an argument for massive performance-gain if you plan to run this function many times on the same image (img.pixels[:]).
+     
+    pixelNumber = (imageSize[0] * int(uv_coord.y)) + int(uv_coord.x)
     
     r = uv_pixels[pixelNumber*4 + 0]
     g = uv_pixels[pixelNumber*4 + 1]
