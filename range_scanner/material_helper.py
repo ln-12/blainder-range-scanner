@@ -102,8 +102,11 @@ def getMaterialColorAndMetallic(hit, materialMappings, depsgraph, debugOutput):
     material = materialMappings[hit.target][0][materialIndex]
 
     if material.texture is not None:
+        # caculate point location in relation to the hit target
+        newPoint = hit.target.matrix_world.inverted() @ hit.location
+
         # retrieve color
-        material.color = getUVPixelColor(hit.target.data, hit.faceIndex, hit.location, material.texture)
+        material.color = getUVPixelColor(hit.target.data, hit.faceIndex, newPoint, material.texture)
     
     return material
     """
