@@ -47,7 +47,7 @@ def castRay(targets, trees, origin, direction, maxRange, materialMappings, depsg
 
         # get the material's reflectivity properties
         materialProperty = material_helper.getMaterialColorAndMetallic(closestHit, materialMappings, depsgraph, debugOutput)
-
+        
         closestHit.color = materialProperty.color
 
         # use simple lambert reflectance to approximate light return
@@ -418,7 +418,7 @@ def performScan(context,
                 if "partID" in closestHit.target:
                     partIDIndex = closestHit.target["partID"]
                 else:
-                    partIDIndex = closestHit.target.material_slots[materialMappings[closestHit.target][closestHit.faceIndex]].name
+                    partIDIndex = closestHit.target.material_slots[materialMappings[closestHit.target][1][closestHit.faceIndex]].name
 
                 closestHit.categoryID = categoryIDs[closestHit.target["categoryID"]]
                 closestHit.partID = partIDs[partIDIndex]

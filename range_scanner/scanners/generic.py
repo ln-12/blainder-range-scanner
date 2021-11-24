@@ -229,8 +229,12 @@ def startScan(context, dependencies_installed, properties, objectName):
 
         targets.append(target)
 
+        targetMaterials = material_helper.getTargetMaterials(properties.debugOutput, target)
+
         # get the face->material mappings for the current object
-        materialMappings[target] = material_helper.getFaceMaterialMapping(target.data)
+        targetMappings =  material_helper.getFaceMaterialMapping(target.data)
+        
+        materialMappings[target] = (targetMaterials, targetMappings)
 
     (categoryIDs, partIDs) = getTargetIndices(targets, properties.debugOutput)
 
