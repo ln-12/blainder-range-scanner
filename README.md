@@ -59,6 +59,8 @@ Supported formats:
 
 ## Installation
 
+It is recommended to use Blender 2.93 LTS. The add-on might work with Blender 3.x, but no support is currently given for specific problems with that version, although you can open an issue. The next LTS might be available with Blender 3.3 (see [here](https://code.blender.org/2020/02/release-planning-2020-2025/)) for which the add-on will be updated when available.
+
 ### GUI usage
 
 1. Clone the repository. This might take some time as the examples are quite large.
@@ -68,7 +70,7 @@ Supported formats:
 ### Script usage
 
 1. Clone the repository.
-2. Copy the `range_scanner` folder to `C:\Program Files\Blender Foundation\Blender 2.83\2.83\scripts\addons_contrib` (Windows).
+2. Copy the `range_scanner` folder to `C:\Program Files\Blender Foundation\Blender 2.93\2.93\scripts\addons_contrib` (Windows).
 
 *WARNING*: *DO NOT* install the addon via both ways or the two versions are mixed up and cause errors. 
 
