@@ -61,18 +61,38 @@ Supported formats:
 
 It is recommended to use Blender 2.93 LTS. The add-on might work with Blender 3.x, but no support is currently given for specific problems with that version, although you can open an issue. The next LTS might be available with Blender 3.3 (see [here](https://code.blender.org/2020/02/release-planning-2020-2025/)) for which the add-on will be updated when available.
 
-### GUI usage
+*WARNING*: *DO NOT* install the addon via both ways or the two versions are mixed up and cause errors. 
+
+### For GUI usage
 
 1. Clone the repository. This might take some time as the examples are quite large.
 2. Zip the `range_scanner` folder.
 3. Inside Blender, go to `Edit` -> `Preferences...` -> `Add-ons` -> `Install...` and select the `.zip` file.
 
-### Script usage
+### For script usage
 
 1. Clone the repository.
-2. Copy the `range_scanner` folder to `C:\Program Files\Blender Foundation\Blender 2.93\2.93\scripts\addons_contrib` (Windows).
+2. Copy the `range_scanner` folder to `Blender 2.93/2.93/scripts/addons_contrib`.
 
-*WARNING*: *DO NOT* install the addon via both ways or the two versions are mixed up and cause errors. 
+The full installation of Blainder and all dependencies inside a fresh Blender copy can be done using the following commands on Ubuntu:
+ 
+```
+sudo apt-get update
+sudo apt-get -y install git
+
+wget https://download.blender.org/release/Blender2.93/blender-2.93.6-linux-x64.tar.xz
+tar -xf blender-2.93.6-linux-x64.tar.xz
+
+git clone https://github.com/ln-12/blainder-range-scanner.git
+
+mkdir ./blender-2.93.6-linux-x64/2.93/scripts/addons_contrib/
+cp -r ./blainder-range-scanner/range_scanner ./blender-2.93.6-linux-x64/2.93/scripts/addons_contrib/
+
+./blender-2.93.6-linux-x64/2.93/python/bin/python3.9 -m ensurepip
+./blender-2.93.6-linux-x64/2.93/python/bin/python3.9 -m pip install -r ./blainder-range-scanner/range_scanner/requirements.txt
+
+./blender-2.93.6-linux-x64/blender
+```
 
 <br /><br />
 
