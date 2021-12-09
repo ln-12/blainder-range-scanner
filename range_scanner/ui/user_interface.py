@@ -122,7 +122,7 @@ def install_pip():
 
     try:
         # Check if pip is already installed
-        subprocess.run([bpy.app.binary_path_python, "-m", "pip", "--version"], check=True)
+        subprocess.run([sys.executable, "-m", "pip", "--version"], check=True)
     except subprocess.CalledProcessError:
         import ensurepip
 
@@ -147,7 +147,7 @@ def install_and_import_module(module, importName):
     # site-packages and pip deems the requirement satisfied, but Blender cannot import the package from the user
     # site-packages. Hence, the environment variable PYTHONNOUSERSITE is set to disallow pip from checking the user
     # site-packages. If the package is not already installed for Blender's Python interpreter, it will then try to.
-    # The paths used by pip can be checked with `subprocess.run([bpy.app.binary_path_python, "-m", "site"], check=True)`
+    # The paths used by pip can be checked with `subprocess.run([sys.executable, "-m", "site"], check=True)`
 
     # Store the original environment variables
     environ_orig = dict(os.environ)
