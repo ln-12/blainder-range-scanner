@@ -8,7 +8,7 @@ Jinja2==3.0.2
 MarkupSafe==2.0.1
 
 # modules needed for the actual add-on
-h5py==3.5.0
+h5py==3.6.0
 laspy==2.0.3
 numpy==1.19.5
 #/pascal_voc_writer
