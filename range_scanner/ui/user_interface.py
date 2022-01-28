@@ -375,10 +375,10 @@ class WM_OT_LOAD_PRESET(Operator):
                             speed = item["speed"]
                             density = item["density"]
 
-                            addItemToList(depth, speed, density, scene.custom, scene.custom_index)
+                            addItemToList(scene, depth, speed, density, scene.custom)
 
                         # cleanup list
-                        removeDuplicatesFromList(scene.custom, scene.custom_index)
+                        removeDuplicatesFromList(scene, scene.custom)
 
                         sortList(scene.custom)
 
@@ -2184,16 +2184,16 @@ def sortList(customList):
         customList.move(minimumIndex, index)
 
 # adapted from https://blender.stackexchange.com/a/30446/95167
-def addItemToList(depth, speed, density, customList, customIndex):
+def addItemToList(scene, depth, speed, density, customList):
     # add new item to the list
     item = customList.add()
     item.name = str(depth)
     item.depth = depth
     item.speed = speed
     item.density = density
-    customIndex = len(customList)-1
+    scene.custom_index = len(customList)-1
 
-def removeDuplicatesFromList(customList, customIndex):
+def removeDuplicatesFromList(scene, customList):
     # remove potential duplicates
     removed_items = []
     for i in find_duplicates(customList)[::-1]:
@@ -2201,7 +2201,7 @@ def removeDuplicatesFromList(customList, customIndex):
         removed_items.append(i)
 
     if removed_items:
-        customIndex = len(customList)-1
+        scene.custom_index = len(customList)-1
 
 def find_duplicates(customList):
     """find all duplicates by name"""
@@ -2227,9 +2227,9 @@ class CUSTOM_OT_addItem(Operator):
     def execute(self, context):
         scene = context.scene
 
-        addItemToList(scene.scannerProperties.refractionDepth, scene.scannerProperties.refractionSpeed, scene.scannerProperties.refractionDensity, scene.custom, scene.custom_index)
+        addItemToList(scene, scene.scannerProperties.refractionDepth, scene.scannerProperties.refractionSpeed, scene.scannerProperties.refractionDensity, scene.custom)
 
-        removeDuplicatesFromList(scene.custom, scene.custom_index)
+        removeDuplicatesFromList(scene, scene.custom)
 
         sortList(scene.custom)
 
@@ -2344,6 +2344,7 @@ def register():
 
     bpy.types.Scene.scannerProperties = PointerProperty(type=ScannerProperties)
     bpy.types.Scene.custom = CollectionProperty(type=CUSTOM_objectCollection)
+    bpy.types.Scene.custom_index = IntProperty()
 
     missingDependency = None
 
@@ -2409,3 +2410,4 @@ def unregister():
 
     del bpy.types.Scene.scannerProperties
     del bpy.types.Scene.custom
+    del bpy.types.Scene.custom_index
