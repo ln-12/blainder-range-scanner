@@ -410,6 +410,7 @@ def performScan(context,
                 #             |  /         |
                 #             |/           |
                 #   ----------L------------------
+                actualDistance = closestHit.distance
                 if scannerType == generic.ScannerType.static.name:
                     # only modify the distance, not the XYZ values!
                     closestHit.distance = mathutils.geometry.distance_point_to_plane(closestHit.location, origin, sensorZero)
@@ -547,7 +548,10 @@ def performScan(context,
                     # instead, we have to move it along the ray direction
 
                     # calculate distance with noise
-                    noiseDistance = closestHit.distance + noise
+                    if scannerType == generic.ScannerType.static.name:
+                        noiseDistance = actualDistance + noise
+                    else:
+                        noiseDistance = closestHit.distance + noise
                     
                     # calculate the direction vector with noise applied
                     noiseDirection =  direction.normalized() * noiseDistance
