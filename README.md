@@ -514,4 +514,8 @@ You should have received a copy of the GNU General Public License along with thi
 A brief summary of this license can be found here: https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)
 <br />
 
+Commercial license: If you want to use this software without complying with the conditions of the GPL-3.0 license, you can get a custom license for 5.000€ per application instance (= 1 VM or 1 computer). Discounts are possible when purchasing multiple licenses. If you wish to obtain such a license, please feel free to contact me at <a href="mailto:lorenzo.neumann@informatik.tu-freiberg.de?subject=[BLAINDER] License request">lorenzo.neumann@informatik.tu-freiberg.de</a> or via an issue.
+
+<br />
+
 Chair model used: [Low Poly Chair](https://free3d.com/de/3d-model/chair-255345.html)
