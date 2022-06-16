@@ -1097,12 +1097,12 @@ class ScannerProperties(PropertyGroup):
         max = 1000000,
     )
     
-    resolutionPercentage: FloatProperty(
+    resolutionPercentage: IntProperty(
         name = "Scale",
         description = "Percentage to scale the resolution",
-        default = 100.0,
-        min = 0.01,
-        max = 100000.0
+        default = 100,
+        min = 1,
+        max = 100000
     )
 
 

@@ -316,7 +316,7 @@ def performScan(context,
             scene.render.pixel_aspect_x = 1.0 / scale
             scene.render.pixel_aspect_y = 1.0
             
-        scene.render.resolution_percentage = percentage
+        scene.render.resolution_percentage = int(percentage)
 
         # defining sensor properties
         frame = sensor.data.view_frame(scene=scene)

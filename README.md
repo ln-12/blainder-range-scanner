@@ -1,3 +1,8 @@
+# Changes Made in this Fork
+
+## Blender 3.x Compatibility
+Blender 3.x dramatically speeds up rendering, among other big enhancements. Blainder Range Scanner needs just a minor change to be compatible with the latest versions.
+
 # Range scanner simulation for Blender
 
 This Blender add-on enables you to simulate lidar, sonar and time of flight scanners in your scene. Each point of the generated point cloud is labeled with the object or part id that was set before the simulation. The obtained data can be exported in various formats to use it in machnie learning tasks (see [Examples](#examples) section).
