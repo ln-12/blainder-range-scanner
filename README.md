@@ -1,7 +1,7 @@
-# Changes Made in this Fork
+# Changes made in this fork
 
-## Blender 3.x Compatibility
-Blender 3.x dramatically speeds up rendering, among other big enhancements. Blainder Range Scanner needs just a minor change to be compatible with the latest versions.
+## Blender 3.x compatibility
+Blender 3.x dramatically speeds up rendering among other enhancements. BlAInder Range Scanner needs just a minor change to be compatible with the latest versions.
 
 # Range scanner simulation for Blender
 
