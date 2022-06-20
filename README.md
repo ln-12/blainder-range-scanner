@@ -94,6 +94,14 @@ cp -r ./blainder-range-scanner/range_scanner ./blender-2.93.6-linux-x64/2.93/scr
 ./blender-2.93.6-linux-x64/blender
 ```
 
+For Windows, you have to run the same commands after installation via PowerShell (as administrator):
+```
+cd 'C:\Program Files\Blender Foundation\Blender 2.93\'
+.\2.93\python\bin\python.exe -m ensurepip
+ 
+.\2.93\python\bin\python.exe -m pip install -r <Path-To-Blainder>\blainder-range-scanner\range_scanner\requirements.txt
+```
+
 <br /><br />
 
 ## Dependencies
