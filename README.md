@@ -64,7 +64,7 @@ Supported formats:
 
 ## Installation
 
-It is recommended to use Blender 2.93 LTS. The add-on might work with Blender 3.x, but no support is currently given for specific problems with that version, although you can open an issue. The next LTS might be available with Blender 3.3 (see [here](https://code.blender.org/2020/02/release-planning-2020-2025/)) for which the add-on will be updated when available.
+It is recommended to use Blender 2.93 LTS. The next LTS will be available with Blender 3.3 (see [here](https://developer.blender.org/project/view/142/)) for which the add-on will be updated. Support for that version is prepared in [this branch](https://github.com/ln-12/blainder-range-scanner/tree/Blender3). Feel free to open an issue if you face problems with Blender 3.x while using that branch. 
 
 *WARNING*: *DO NOT* install the addon via both ways or the two versions are mixed up and cause errors. 
 
@@ -97,6 +97,14 @@ cp -r ./blainder-range-scanner/range_scanner ./blender-2.93.6-linux-x64/2.93/scr
 ./blender-2.93.6-linux-x64/2.93/python/bin/python3.9 -m pip install -r ./blainder-range-scanner/range_scanner/requirements.txt
 
 ./blender-2.93.6-linux-x64/blender
+```
+
+For Windows, you have to run the same commands after installation via PowerShell (as administrator):
+```
+cd 'C:\Program Files\Blender Foundation\Blender 2.93\'
+.\2.93\python\bin\python.exe -m ensurepip
+ 
+.\2.93\python\bin\python.exe -m pip install -r <Path-To-Blainder>\blainder-range-scanner\range_scanner\requirements.txt
 ```
 
 <br /><br />
