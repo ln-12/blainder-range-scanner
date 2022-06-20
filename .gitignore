@@ -15,3 +15,5 @@ __pycache__/
 *.csv
 *.png
 *.xml
+
+*.zip
