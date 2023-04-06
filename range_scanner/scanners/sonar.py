@@ -78,7 +78,7 @@ def performScan(context,
                 simulateWaterProfile, depthList,  
                 addNoise, noiseType, mu, sigma, addConstantNoise, noiseAbsoluteOffset, noiseRelativeOffset,
                 addMesh,
-                exportLAS, exportHDF, exportCSV, exportSingleFrames,
+                exportLAS, exportHDF, exportCSV, exportPLY, exportSingleFrames,
                 dataFilePath, dataFileName,
                 debugLines, debugOutput, outputProgress, measureTime, singleRay, destinationObject, targetObject,
                 enableAnimation, frameStart, frameEnd, frameStep,
@@ -433,7 +433,7 @@ def performScan(context,
 
     if len(slicedScannedValues) > 0:
         # setup exporter with our data
-        if exportLAS or exportHDF or exportCSV:
+        if exportLAS or exportHDF or exportCSV or exportPLY:
             fileExporter = exporter.Exporter(dataFilePath, "%s_frame_%d" % (dataFileName, frameNumber), dataFileName, slicedScannedValues, targets, categoryIDs, partIDs, materialMappings, exportNoiseData, 0, 0)
 
             # export to each format
@@ -445,6 +445,9 @@ def performScan(context,
 
             if exportCSV:
                 fileExporter.exportCSV()
+
+            if exportPLY:
+                fileExporter.exportPLY()
     else:
         print("No data to export!")
 

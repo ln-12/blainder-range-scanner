@@ -25,6 +25,7 @@ Note: the left and middle chairs have the same colors because the subobjects wer
 Supported formats:
 * [.hdf5](https://en.wikipedia.org/wiki/Hierarchical_Data_Format)
 * [.csv](https://en.wikipedia.org/wiki/Comma-separated_values)
+* [.ply](https://en.wikipedia.org/wiki/PLY_(file_format))
 * [.las](https://en.wikipedia.org/wiki/LAS_file_format)
 
 ## 2D annotated images
@@ -326,7 +327,7 @@ If this setting is enabled, the generated point cloud is added the to Blender sc
 
 #### Raw data
 
-This add-on can output the generated point clouds as [.hdf5](https://en.wikipedia.org/wiki/Hierarchical_Data_Format), [.csv](https://en.wikipedia.org/wiki/Comma-separated_values) and [.las](https://en.wikipedia.org/wiki/LAS_file_format) files.
+This add-on can output the generated point clouds as [.hdf5](https://en.wikipedia.org/wiki/Hierarchical_Data_Format), [.csv](https://en.wikipedia.org/wiki/Comma-separated_values), [.ply](https://en.wikipedia.org/wiki/PLY_(file_format)) and [.las](https://en.wikipedia.org/wiki/LAS_file_format) files.
 
 The option `Export single frames` defines if each animation frame should be exported in a separat file or if all steps are exported into a single file.
 
@@ -370,7 +371,7 @@ range_scanner.ui.user_interface.scan_static(
 
     addMesh=True,
 
-    exportLAS=False, exportHDF=False, exportCSV=False, exportSingleFrames=False,
+    exportLAS=False, exportHDF=False, exportCSV=False, exportPLY=False, exportSingleFrames=False,
     exportRenderedImage=False, exportSegmentedImage=False, exportPascalVoc=False, exportDepthmap=False, depthMinDistance=0.0, depthMaxDistance=100.0, 
     dataFilePath="//output", dataFileName="output file",
     
@@ -399,7 +400,7 @@ range_scanner.ui.user_interface.scan_rotating(
 
     addMesh=True,
 
-    exportLAS=False, exportHDF=False, exportCSV=False, exportSingleFrames=False,
+    exportLAS=False, exportHDF=False, exportCSV=False, exportPLY=False, exportSingleFrames=False,
     dataFilePath="//output", dataFileName="output file",
     
     debugLines=False, debugOutput=False, outputProgress=True, measureTime=False, singleRay=False, destinationObject=None, targetObject=None
@@ -436,7 +437,7 @@ range_scanner.ui.user_interface.scan_sonar(
 
     addMesh=True,
 
-    exportLAS=False, exportHDF=False, exportCSV=False, exportSingleFrames=False,
+    exportLAS=False, exportHDF=False, exportCSV=False, exportPLY=False, exportSingleFrames=False,
     dataFilePath="//output", dataFileName="output file",
     
     debugLines=False, debugOutput=False, outputProgress=True, measureTime=False, singleRay=False, destinationObject=None, targetObject=None
