@@ -12,6 +12,7 @@ __pycache__/
  
 *.las
 *.hdf5
+*.ply
 *.csv
 *.png
 *.xml
