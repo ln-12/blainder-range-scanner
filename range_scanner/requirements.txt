@@ -5,7 +5,7 @@
 #/jinja2
 Jinja2==3.0.2
 #/markupsafe
-MarkupSafe==2.0.1
+MarkupSafe==2.1.1
 
 # modules needed for the actual add-on
 h5py==3.6.0
