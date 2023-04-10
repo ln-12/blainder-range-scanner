@@ -913,7 +913,13 @@ class ScannerProperties(PropertyGroup):
         name="Export .csv file",
         description="Enable or disable if data should be saved into .csv file format",
         default = False
-    ) 
+    )
+
+    exportPLY: BoolProperty(
+        name="Export .ply file",
+        description="Enable or disable if data should be saved into .ply file format",
+        default=False
+    )
 
     exportSingleFrames: BoolProperty(
         name="Export single frames",
@@ -1097,12 +1103,12 @@ class ScannerProperties(PropertyGroup):
         max = 1000000,
     )
     
-    resolutionPercentage: FloatProperty(
+    resolutionPercentage: IntProperty(
         name = "Scale",
         description = "Percentage to scale the resolution",
-        default = 100.0,
-        min = 0.01,
-        max = 100000.0
+        default = 100,
+        min = 1,
+        max = 100000
     )
 
 
@@ -1401,7 +1407,7 @@ def scan_rotating(context,
 
         addMesh,
 
-        exportLAS, exportHDF, exportCSV, exportSingleFrames,
+        exportLAS, exportHDF, exportCSV, exportPLY, exportSingleFrames,
         dataFilePath, dataFileName,
         
         debugLines, debugOutput, outputProgress, measureTime, singleRay, destinationObject, targetObject,
@@ -1446,6 +1452,7 @@ def scan_rotating(context,
     properties.exportLAS = exportLAS
     properties.exportHDF = exportHDF
     properties.exportCSV = exportCSV
+    properties.exportPLY = exportPLY
     properties.exportSingleFrames = exportSingleFrames
     properties.dataFilePath = dataFilePath
     properties.dataFileName = dataFileName
@@ -1477,7 +1484,7 @@ def scan_sonar(context,
 
         addMesh,
 
-        exportLAS, exportHDF, exportCSV, exportSingleFrames,
+        exportLAS, exportHDF, exportCSV, exportPLY, exportSingleFrames,
         dataFilePath, dataFileName,
         
         debugLines, debugOutput, outputProgress, measureTime, singleRay, destinationObject, targetObject,
@@ -1524,6 +1531,7 @@ def scan_sonar(context,
     properties.exportLAS = exportLAS
     properties.exportHDF = exportHDF
     properties.exportCSV = exportCSV
+    properties.exportPLY = exportPLY
     properties.exportSingleFrames = exportSingleFrames
     properties.dataFilePath = dataFilePath
     properties.dataFileName = dataFileName
@@ -1554,7 +1562,7 @@ def scan_static(context,
 
         addMesh,
 
-        exportLAS, exportHDF, exportCSV, exportSingleFrames,
+        exportLAS, exportHDF, exportCSV, exportPLY, exportSingleFrames,
         exportRenderedImage, exportSegmentedImage, exportPascalVoc, exportDepthmap, depthMinDistance, depthMaxDistance, 
         dataFilePath, dataFileName,
         
@@ -1600,6 +1608,7 @@ def scan_static(context,
     properties.exportLAS = exportLAS
     properties.exportHDF = exportHDF
     properties.exportCSV = exportCSV
+    properties.exportPLY = exportPLY
     properties.exportSingleFrames = exportSingleFrames
     properties.exportRenderedImage = exportRenderedImage
     properties.exportSegmentedImage = exportSegmentedImage
@@ -1654,7 +1663,7 @@ class WM_OT_GENERATE_POINT_CLOUDS(Operator):
 
             addMesh=True,
 
-            exportLAS=False, exportHDF=False, exportCSV=False, exportSingleFrames=False,
+            exportLAS=False, exportHDF=False, exportCSV=False, exportPLY=False, exportSingleFrames=False,
             exportRenderedImage=False, exportSegmentedImage=False, exportPascalVoc=False, exportDepthmap=False, depthMinDistance=0.0, depthMaxDistance=100.0, 
             dataFilePath="//output", dataFileName="output file",
             
@@ -1680,7 +1689,7 @@ class WM_OT_GENERATE_POINT_CLOUDS(Operator):
 
             addMesh=True,
 
-            exportLAS=False, exportHDF=False, exportCSV=False, exportSingleFrames=False,
+            exportLAS=False, exportHDF=False, exportCSV=False, exportPLY=False, exportSingleFrames=False,
             dataFilePath="//output", dataFileName="output file",
             
             debugLines=False, debugOutput=False, outputProgress=True, measureTime=False, singleRay=False, destinationObject=None, targetObject=None
@@ -1714,7 +1723,7 @@ class WM_OT_GENERATE_POINT_CLOUDS(Operator):
 
             addMesh=True,
 
-            exportLAS=False, exportHDF=False, exportCSV=False, exportSingleFrames=False,
+            exportLAS=False, exportHDF=False, exportCSV=False, exportPLY=False, exportSingleFrames=False,
             dataFilePath="//output", dataFileName="output file",
             
             debugLines=False, debugOutput=False, outputProgress=True, measureTime=False, singleRay=False, destinationObject=None, targetObject=None
@@ -2097,6 +2106,7 @@ class OBJECT_PT_EXPORT_PANEL(MAIN_PANEL, Panel):
         layout.prop(properties, "exportLAS")
         layout.prop(properties, "exportHDF")
         layout.prop(properties, "exportCSV")
+        layout.prop(properties, "exportPLY")
         layout.prop(properties, "exportSingleFrames")
 
         layout.separator()

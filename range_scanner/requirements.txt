@@ -5,12 +5,13 @@
 #/jinja2
 Jinja2==3.0.2
 #/markupsafe
-MarkupSafe==2.0.1
+MarkupSafe==2.1.1
 
 # modules needed for the actual add-on
 h5py==3.6.0
 laspy==2.0.3
-numpy==1.19.5
+open3d==0.17.0
+numpy==1.22.0
 #/pascal_voc_writer
 pascal-voc-writer==0.1.4
 #/png

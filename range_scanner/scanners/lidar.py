@@ -268,7 +268,7 @@ def performScan(context,
                 simulateRain, rainfallRate, 
                 simulateDust, particleRadius, particlesPcm, dustCloudLength, dustCloudStart,
                 addMesh,
-                exportLAS, exportHDF, exportCSV, 
+                exportLAS, exportHDF, exportCSV, exportPLY, 
                 exportRenderedImage, exportSegmentedImage, exportPascalVoc, exportDepthmap, depthMinDistance, depthMaxDistance, 
                 dataFilePath, dataFileName,
                 debugLines, debugOutput, outputProgress, measureTime, singleRay, destinationObject, targetObject,
@@ -316,7 +316,7 @@ def performScan(context,
             scene.render.pixel_aspect_x = 1.0 / scale
             scene.render.pixel_aspect_y = 1.0
             
-        scene.render.resolution_percentage = percentage
+        scene.render.resolution_percentage = int(percentage)
 
         # defining sensor properties
         frame = sensor.data.view_frame(scene=scene)
@@ -613,7 +613,7 @@ def performScan(context,
 
     if len(slicedScannedValues) > 0:
         # setup exporter with our data
-        if exportLAS or exportHDF or exportCSV or exportSegmentedImage or exportRenderedImage or exportDepthmap:
+        if exportLAS or exportHDF or exportCSV or exportPLY or exportSegmentedImage or exportRenderedImage or exportDepthmap:
             fileExporter = exporter.Exporter(dataFilePath, "%s_frame_%d" % (dataFileName, frameNumber), dataFileName, slicedScannedValues, targets, categoryIDs, partIDs, materialMappings, exportNoiseData, stepsX, stepsY)
 
             # export to each format
@@ -625,6 +625,9 @@ def performScan(context,
 
             if exportCSV:
                 fileExporter.exportCSV()
+
+            if exportPLY:
+                fileExporter.exportPLY()
 
             if scannerType == generic.ScannerType.static.name:
                 if exportSegmentedImage:
