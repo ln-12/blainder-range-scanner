@@ -59,7 +59,7 @@ Supported formats:
 
 ## Installation
 
-It is recommended to use Blender 2.93 LTS. The next LTS will be available with Blender 3.3 (see [here](https://developer.blender.org/project/view/142/)) for which the add-on will be updated. Support for that version is prepared in [this branch](https://github.com/ln-12/blainder-range-scanner/tree/Blender3). Feel free to open an issue if you face problems with Blender 3.x while using that branch. 
+It is recommended to use Blender 3.3 LTS. The next LTS will be available with Blender 3.3 (see [here](https://developer.blender.org/project/view/142/)) for which the add-on will be updated. Support for that version is prepared in [this branch](https://github.com/ln-12/blainder-range-scanner/tree/Blender3). Feel free to open an issue if you face problems with Blender 3.x while using that branch. 
 
 *WARNING*: *DO NOT* install the addon via both ways or the two versions are mixed up and cause errors. 
 
@@ -72,7 +72,7 @@ It is recommended to use Blender 2.93 LTS. The next LTS will be available with B
 ### For script usage
 
 1. Clone the repository.
-2. Copy the `range_scanner` folder to `Blender 2.93/2.93/scripts/addons_contrib`.
+2. Copy the `range_scanner` folder to `Blender 3.3/3.3/scripts/addons_contrib`.
 
 The full installation of Blainder and all dependencies inside a fresh Blender copy can be done using the following commands on Ubuntu:
  
@@ -80,26 +80,26 @@ The full installation of Blainder and all dependencies inside a fresh Blender co
 sudo apt-get update
 sudo apt-get -y install git
 
-wget https://download.blender.org/release/Blender2.93/blender-2.93.6-linux-x64.tar.xz
-tar -xf blender-2.93.6-linux-x64.tar.xz
+wget https://download.blender.org/release/Blender3.3/blender-3.3.5-linux-x64.tar.xz
+tar -xf blender-3.3.5-linux-x64.tar.xz
 
 git clone https://github.com/ln-12/blainder-range-scanner.git
 
-mkdir ./blender-2.93.6-linux-x64/2.93/scripts/addons_contrib/
-cp -r ./blainder-range-scanner/range_scanner ./blender-2.93.6-linux-x64/2.93/scripts/addons_contrib/
+mkdir ./blender-3.3.5-linux-x64/3.3/scripts/addons_contrib/
+cp -r ./blainder-range-scanner/range_scanner ./blender-3.3.5-linux-x64/3.3/scripts/addons_contrib/
 
-./blender-2.93.6-linux-x64/2.93/python/bin/python3.9 -m ensurepip
-./blender-2.93.6-linux-x64/2.93/python/bin/python3.9 -m pip install -r ./blainder-range-scanner/range_scanner/requirements.txt
+./blender-3.3.5-linux-x64/3.3/python/bin/python3.9 -m ensurepip
+./blender-3.3.5-linux-x64/3.3/python/bin/python3.9 -m pip install -r ./blainder-range-scanner/range_scanner/requirements.txt
 
-./blender-2.93.6-linux-x64/blender
+./blender-3.3.5-linux-x64/blender
 ```
 
 For Windows, you have to run the same commands after installation via PowerShell (as administrator):
 ```
-cd 'C:\Program Files\Blender Foundation\Blender 2.93\'
-.\2.93\python\bin\python.exe -m ensurepip
+cd 'C:\Program Files\Blender Foundation\Blender 3.3\'
+.\3.3\python\bin\python.exe -m ensurepip
  
-.\2.93\python\bin\python.exe -m pip install -r <Path-To-Blainder>\blainder-range-scanner\range_scanner\requirements.txt
+.\3.3\python\bin\python.exe -m pip install -r <Path-To-Blainder>\blainder-range-scanner\range_scanner\requirements.txt
 ```
 
 <br /><br />
@@ -126,14 +126,14 @@ Open a terminal (as admin on Windows) and navigate into `blainder-range-scanner/
 
 Windows
 ```
-"C:\Program Files\Blender Foundation\Blender 2.93\2.93\python\bin\python.exe" -m pip install -r requirements.txt
+"C:\Program Files\Blender Foundation\Blender 3.3\3.3\python\bin\python.exe" -m pip install -r requirements.txt
 ```
 
-*WARNING*: Make sure that the packages are installed inside `C:\program files\blender foundation\blender 2.93\2.93\python\lib\site-packages`, not `C:\users\USER\appdata\roaming\python\python39\site-packages\` or Blender won't find them!
+*WARNING*: Make sure that the packages are installed inside `C:\program files\blender foundation\blender 3.3\3.3\python\lib\site-packages`, not `C:\users\USER\appdata\roaming\python\python39\site-packages\` or Blender won't find them!
 
 macOS
 ```
-/Applications/Blender.app/Contents/Resources/2.93/python/bin/python3.9m -m pip install -r requirements.txt
+/Applications/Blender.app/Contents/Resources/3.3/python/bin/python3.9m -m pip install -r requirements.txt
 ```
 
 <br /><br />
@@ -522,7 +522,7 @@ You should have received a copy of the GNU General Public License along with thi
 A brief summary of this license can be found here: https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)
 <br />
 
-Commercial license: If you want to use this software without complying with the conditions of the GPL-3.0 license, you can get a custom license for 5.000€ per application instance (= 1 VM or 1 computer). Discounts are possible when purchasing multiple licenses. If you wish to obtain such a license, please feel free to contact me at <a href="mailto:lorenzo.neumann@informatik.tu-freiberg.de?subject=[BLAINDER] License request">lorenzo.neumann@informatik.tu-freiberg.de</a> or via an issue.
+Commercial license: If you want to use this software without complying with the conditions of the GPL-3.0 license, you can get a custom license. If you wish to obtain such a license, please feel free to contact me at <a href="mailto:lorenzo.neumann@informatik.tu-freiberg.de?subject=[BLAINDER] License request">lorenzo.neumann@informatik.tu-freiberg.de</a> or via an issue.
 
 <br />
 
