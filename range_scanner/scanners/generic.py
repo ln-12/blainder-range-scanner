@@ -240,9 +240,14 @@ def startScan(context, dependencies_installed, properties, objectName):
             else:
                 bpy.ops.object.modifier_apply(apply_as='DATA', modifier=modifier.name)
 
-        targets.append(target)
+        try:
+            targetMaterials = material_helper.getTargetMaterials(properties.debugOutput, target)
+        except ValueError as e:
+            print(e)
+            print(f"The target object with name {target.name} will be ignored! ")
+            continue
 
-        targetMaterials = material_helper.getTargetMaterials(properties.debugOutput, target)
+        targets.append(target)
 
         # get the face->material mappings for the current object
         targetMappings =  material_helper.getFaceMaterialMapping(target.data)

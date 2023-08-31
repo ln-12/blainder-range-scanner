@@ -51,6 +51,10 @@ def getTargetMaterials(debugOutput, target):
                 # instead, we get the Material Output node and look at the connected nodes
                 # see: https://blender.stackexchange.com/a/5471/95167
                 links = material.node_tree.nodes["Material Output"].inputs["Surface"].links
+   
+                if len(links) == 0:
+                    raise ValueError(f"ERROR: Material with name '{material.name}' does not have any links! "
+                                     "Please remove the material or check that the 'Material Output'-node of this material is properly connected. ")
 
                 for link in links:
                     # get the node of the connected link
