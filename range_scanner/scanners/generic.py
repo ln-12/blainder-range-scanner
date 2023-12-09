@@ -465,5 +465,7 @@ def getBVHTrees(trees, targets, depsgraph):
         bm.transform(target.matrix_world)
         
         trees[target] = (BVHTree.FromBMesh(bm), target.matrix_world.copy())
-    
+
+        bm.free()  # always do this when finished
+
     return trees

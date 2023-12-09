@@ -74,7 +74,7 @@ def getTargetMaterials(debugOutput, target):
                         if len(connectedLinks) > 0 and connectedLinks[0].from_node.type == "TEX_IMAGE":
                             # image texture
                             image = connectedLinks[0].from_node.image
-                            texture = Image(image.pixels[:], image.size)
+                            texture = Image(np.asarray(image.pixels), image.size)
 
                             # retrieve metallic factor
                             metallic = node.inputs['Metallic'].default_value
@@ -181,7 +181,7 @@ def getUVPixelColor(mesh:Mesh, face_idx:int, point:Vector, image:Image):
     image    -- UV image used as texture for 'mesh' object
     """
     # ensure image contains at least one pixel
-    assert image is not None and image.pixels is not None and len(image.pixels) > 0
+    assert image is not None and image.pixels is not None and image.pixels.size > 0
     
     # get closest material using UV map
     face = mesh.polygons[face_idx]
@@ -255,7 +255,7 @@ def getPixel(uv_pixels, imageSize, uv_coord):
 def getFaceMaterialMapping(mesh):
     # https://blender.stackexchange.com/a/52429/95167
     numberOfPolygons = len(mesh.polygons.items())
-    mapping = np.empty(numberOfPolygons, dtype=int)
+    mapping = np.empty(numberOfPolygons, dtype=np.uint32)
 
     for f in mesh.polygons: 
         mapping[f.index] = f.material_index
