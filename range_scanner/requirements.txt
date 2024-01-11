@@ -3,7 +3,7 @@
 
 # only needed for debugging with VS Code extension 'Blender Development'
 #/jinja2
-Jinja2==3.0.2
+Jinja2==3.1.3
 #/markupsafe
 MarkupSafe==2.1.1
 
