@@ -89,8 +89,8 @@ git clone https://github.com/ln-12/blainder-range-scanner.git
 mkdir ./blender-3.3.5-linux-x64/3.3/scripts/addons_contrib/
 cp -r ./blainder-range-scanner/range_scanner ./blender-3.3.5-linux-x64/3.3/scripts/addons_contrib/
 
-./blender-3.3.5-linux-x64/3.3/python/bin/python3.9 -m ensurepip
-./blender-3.3.5-linux-x64/3.3/python/bin/python3.9 -m pip install -r ./blainder-range-scanner/range_scanner/requirements.txt
+./blender-3.3.5-linux-x64/3.3/python/bin/python3.10 -m ensurepip
+./blender-3.3.5-linux-x64/3.3/python/bin/python3.10 -m pip install -r ./blainder-range-scanner/range_scanner/requirements.txt
 
 ./blender-3.3.5-linux-x64/blender
 ```
