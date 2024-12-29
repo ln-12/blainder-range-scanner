@@ -183,7 +183,7 @@ def removeInvalidCharatersFromFileName(name):
         name = name.replace(char, '_')
     return name.lower().strip()
 
-def startScan(context, dependencies_installed, properties, objectName):   
+def startScan(context, properties, objectName):   
     if objectName is None:
         cleanedFileName = removeInvalidCharatersFromFileName(properties.dataFileName)
     else:
@@ -288,7 +288,7 @@ def startScan(context, dependencies_installed, properties, objectName):
                     properties.simulateWaterProfile, depthList,   
                     properties.addNoise, properties.noiseType, properties.mu, properties.sigma, properties.addConstantNoise, properties.noiseAbsoluteOffset, properties.noiseRelativeOffset,
                     properties.addMesh,
-                    properties.exportLAS and dependencies_installed, properties.exportHDF and dependencies_installed, properties.exportCSV, properties.exportPLY and dependencies_installed, properties.exportSingleFrames,
+                    properties.exportLAS, properties.exportHDF, properties.exportCSV, properties.exportPLY, properties.exportSingleFrames,
                     properties.dataFilePath, cleanedFileName,
                     properties.debugLines, properties.debugOutput, properties.outputProgress, properties.measureTime, properties.singleRay, properties.destinationObject, properties.targetObject,
                     properties.enableAnimation, properties.frameStart, properties.frameEnd, properties.frameStep,
@@ -396,8 +396,8 @@ def startScan(context, dependencies_installed, properties, objectName):
                                 properties.simulateRain, properties.rainfallRate,
                                 properties.simulateDust, properties.particleRadius, properties.particlesPcm, properties.dustCloudLength, properties.dustCloudStart,
                                 properties.addMesh and properties.exportSingleFrames,
-                                properties.exportLAS and dependencies_installed and properties.exportSingleFrames, properties.exportHDF and dependencies_installed and properties.exportSingleFrames, properties.exportCSV and properties.exportSingleFrames, properties.exportPLY and dependencies_installed and properties.exportSingleFrames, 
-                                properties.exportRenderedImage, properties.exportSegmentedImage, properties.exportPascalVoc and dependencies_installed, properties.exportDepthmap, properties.depthMinDistance, properties.depthMaxDistance, 
+                                properties.exportLAS and properties.exportSingleFrames, properties.exportHDF and properties.exportSingleFrames, properties.exportCSV and properties.exportSingleFrames, properties.exportPLY and properties.exportSingleFrames, 
+                                properties.exportRenderedImage, properties.exportSegmentedImage, properties.exportPascalVoc, properties.exportDepthmap, properties.depthMinDistance, properties.depthMaxDistance, 
                                 properties.dataFilePath, cleanedFileName,
                                 properties.debugLines, properties.debugOutput, properties.outputProgress, properties.measureTime, properties.singleRay, properties.destinationObject, properties.targetObject,
                                 targets, materialMappings,
@@ -421,7 +421,7 @@ def startScan(context, dependencies_installed, properties, objectName):
 
             if len(slicedScannedValues) > 0:
                 # setup exporter with our data
-                if (properties.exportLAS and dependencies_installed) or (properties.exportHDF and dependencies_installed) or (properties.exportCSV and dependencies_installed) or (properties.exportPLY and dependencies_installed):
+                if (properties.exportLAS) or (properties.exportHDF) or (properties.exportCSV) or (properties.exportPLY):
                     fileExporter = exporter.Exporter(properties.dataFilePath, "%s_frames_%d_to_%d" % (cleanedFileName, firstFrame, lastFrame), cleanedFileName, slicedScannedValues, targets, categoryIDs, partIDs, materialMappings, exportNoiseData, stepsX, stepsY)
 
                     print(fileExporter.fileName)

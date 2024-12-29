@@ -2,19 +2,13 @@
 # this is needed for automatic dependency checks and installation
 
 # only needed for debugging with VS Code extension 'Blender Development'
-#/jinja2
-Jinja2==3.0.2
-#/markupsafe
-MarkupSafe==2.1.1
+Jinja2==3.1.5
+MarkupSafe==3.0.2
 
 # modules needed for the actual add-on
-h5py==3.6.0
-laspy==2.0.3
-open3d==0.17.0
-numpy==1.22.0
-#/pascal_voc_writer
+h5py==3.12.1
+laspy==2.5.4
+open3d==0.18.0
 pascal-voc-writer==0.1.4
-#/png
-pypng==0.0.21
-#/yaml
-PyYAML==6.0
+pypng==0.20220715.0
+PyYAML==6.0.2

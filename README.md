@@ -60,47 +60,28 @@ Supported formats:
 
 ## Installation
 
-It is recommended to use Blender 3.3 LTS. The next LTS will be available with Blender 3.3 (see [here](https://developer.blender.org/project/view/142/)) for which the add-on will be updated. Support for that version is prepared in [this branch](https://github.com/ln-12/blainder-range-scanner/tree/Blender3). Feel free to open an issue if you face problems with Blender 3.x while using that branch. 
+This addon was tested with Blender 3.3 LTS ([see here](https://github.com/ln-12/blainder-range-scanner/tree/blender_3.3_lts)) and Blender 4.2 LTS ([see here](https://github.com/ln-12/blainder-range-scanner/tree/blender_4.2_lts)). 
 
-*WARNING*: *DO NOT* install the addon via both ways or the two versions are mixed up and cause errors. 
+The following steps are described for the portable version of Blender.
 
-### For GUI usage
+### Add the addon to Blender
 
 1. Clone the repository. This might take some time as the examples are quite large.
 2. Zip the `range_scanner` folder.
-3. Inside Blender, go to `Edit` -> `Preferences...` -> `Add-ons` -> `Install...` and select the `.zip` file.
+3. Inside Blender, go to `Edit` -> `Preferences...` -> `Add-ons` -> click the top right `v` menu -> `Install from disk...` and select the `.zip` file.
 
-### For script usage
+### Installing the dependencies needed to run the addon 
 
-1. Clone the repository.
-2. Copy the `range_scanner` folder to `Blender 3.3/3.3/scripts/addons_contrib`.
+Place the unzipped Blender and BlAInder directories in the same folder. Then open a terminal and navigate to that same folder (when running the command `ls` you should see `blainder-range-scanner` and `blender-4.2.5-<platform>-x64`).
 
-The full installation of Blainder and all dependencies inside a fresh Blender copy can be done using the following commands on Ubuntu:
- 
+Linux:
 ```
-sudo apt-get update
-sudo apt-get -y install git
-
-wget https://download.blender.org/release/Blender3.3/blender-3.3.5-linux-x64.tar.xz
-tar -xf blender-3.3.5-linux-x64.tar.xz
-
-git clone https://github.com/ln-12/blainder-range-scanner.git
-
-mkdir ./blender-3.3.5-linux-x64/3.3/scripts/addons_contrib/
-cp -r ./blainder-range-scanner/range_scanner ./blender-3.3.5-linux-x64/3.3/scripts/addons_contrib/
-
-./blender-3.3.5-linux-x64/3.3/python/bin/python3.10 -m ensurepip
-./blender-3.3.5-linux-x64/3.3/python/bin/python3.10 -m pip install -r ./blainder-range-scanner/range_scanner/requirements.txt
-
-./blender-3.3.5-linux-x64/blender
+$ ./blender-4.2.5-linux-x64/4.2/python/bin/python3.11 -m pip install -r ./blainder-range-scanner/range_scanner/requirements.txt
 ```
 
-For Windows, you have to run the same commands after installation via PowerShell (as administrator):
-```
-cd 'C:\Program Files\Blender Foundation\Blender 3.3\'
-.\3.3\python\bin\python.exe -m ensurepip
- 
-.\3.3\python\bin\python.exe -m pip install -r <Path-To-Blainder>\blainder-range-scanner\range_scanner\requirements.txt
+Windows (as administrator):
+``` 
+$ .\blender-4.2.5-windows-x64\4.2\python\bin\python.exe -m pip install -r .\blainder-range-scanner\range_scanner\requirements.txt
 ```
 
 <br /><br />
@@ -111,31 +92,6 @@ To use this add-on, you need to install
 * [h5py](https://github.com/h5py/h5py)
 * [pascal_voc_writer](https://github.com/AndrewCarterUK/pascal-voc-writer)
 * [pypng](https://github.com/drj11/pypng)
-
-This add-on makes use of the following projects:
-* [blender-python-examples](https://github.com/robertguetzkow/blender-python-examples), licensed under [GPLv3](https://github.com/robertguetzkow/blender-python-examples/blob/master/LICENSE)
-
-### Automatic installation
-
-After installing the add-on, you see the panel shown below to install the missing dependencies. You might need administrative priviledges to perfom this action ([more info](https://github.com/robertguetzkow/blender-python-examples/tree/master/add_ons/install_dependencies)).
-
-![alt text](images/install_dependencies.png)
-
-### Manual installation
-
-Open a terminal (as admin on Windows) and navigate into `blainder-range-scanner/range_scanner`. Then run on of the following commands depending on your system.
-
-Windows
-```
-"C:\Program Files\Blender Foundation\Blender 3.3\3.3\python\bin\python.exe" -m pip install -r requirements.txt
-```
-
-*WARNING*: Make sure that the packages are installed inside `C:\program files\blender foundation\blender 3.3\3.3\python\lib\site-packages`, not `C:\users\USER\appdata\roaming\python\python39\site-packages\` or Blender won't find them!
-
-macOS
-```
-/Applications/Blender.app/Contents/Resources/3.3/python/bin/python3.9m -m pip install -r requirements.txt
-```
 
 <br /><br />
 
@@ -510,7 +466,7 @@ Paper: Reitmann, S.; Neumann, L.; Jung, B. BLAINDER—A Blender AI Add-On for Ge
 
 ## License
 
-Copyright (C) 2021 Lorenzo Neumann
+Copyright (C) 2024 Lorenzo Neumann
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 

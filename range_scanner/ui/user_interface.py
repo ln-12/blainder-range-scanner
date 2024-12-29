@@ -89,8 +89,6 @@ import bpy
 import subprocess
 from collections import namedtuple
 
-dependencies_installed = False
-
 def import_module(module_name, global_name=None):
     """
     Import a module.
@@ -165,82 +163,6 @@ def install_and_import_module(module, importName):
 
     # The installation succeeded, attempt to import the module again
     import_module(importName)
-
-
-
-class WM_OT_INSTALL_DEPENDENCIES(Operator):
-    bl_label = "Install dependencies"
-    bl_idname = "wm.install_dependencies"
-
-    @classmethod
-    def poll(self, context):
-        # Deactivate when dependencies have been installed
-        return not dependencies_installed
-
-    def execute(self, context):
-        try:
-            install_pip()
-
-            requirementsPath = os.path.join(pathlib.Path(__file__).parent.parent.absolute(), "requirements.txt")
-            print("Reading dependencies from {0}".format(requirementsPath))
-            requirementsFile = open(requirementsPath, 'r')
-            requirements = requirementsFile.readlines()
- 
-            importName = None
-
-            # Strips the newline character
-            for requirement in requirements:
-                stripped = requirement.strip()
-
-                if stripped.startswith("#/"):
-                    importName = stripped.split("#/")[1]
-                    continue
-
-                if stripped.startswith("#") or not stripped:
-                    continue
-
-                name, version = stripped.split("==")
-
-                if importName is None:
-                    importName = name
-
-                print(f"Checking {name}: version {version}, import {importName}")
-
-                install_and_import_module(module=stripped, importName=importName)
-
-                importName = None
-        except (subprocess.CalledProcessError, ImportError) as err:
-            print("ERROR: %s" % str(err))
-            self.report({"ERROR"}, str(err))
-            return {"CANCELLED"}
-
-        global dependencies_installed
-        dependencies_installed = True
-        
-        return {"FINISHED"}
-
-class EXAMPLE_PT_DEPENDENCIES_PANEL(MAIN_PANEL, Panel):
-    bl_label = "Missing dependencies"
-
-    @classmethod
-    def poll(self, context):
-        return not dependencies_installed
-
-    def draw(self, context):
-        layout = self.layout
-
-        lines = [f"You need to install some dependencies to use this add-on.",
-                 f"Click the button below to start (requires to run blender",
-                 f"with administrative privileges on Windows)."]
-
-        for line in lines:
-            layout.label(text=line)
-
-        layout.operator("wm.install_dependencies")
-
-
-
-
 
 
 
@@ -1232,16 +1154,13 @@ class ScannerProperties(PropertyGroup):
 
 
 
-
-
-
 ############################################################# 
 #                                                           #
 #                      USER INTERFACE                       #
 #                                                           #
 #############################################################
 
-def modifyAndScan(context, dependencies_installed, properties, objectName):
+def modifyAndScan(context, properties, objectName):
     # random modifications enabled
     if properties.enableModification:
         # store the objects pose as default
@@ -1282,14 +1201,14 @@ def modifyAndScan(context, dependencies_installed, properties, objectName):
                 properties.swapObject.scale[1] = oldScale[1] * scaleY
                 properties.swapObject.scale[2] = oldScale[2] * scaleZ
 
-            generic.startScan(context, dependencies_installed, properties, "%s_mod_%d" % (objectName, i))
+            generic.startScan(context, properties, "%s_mod_%d" % (objectName, i))
 
         # reset the matrix so that the next run can start from zero
         properties.swapObject.matrix_world = matrixWorld
     else:
-        generic.startScan(context, dependencies_installed, properties, objectName)
+        generic.startScan(context, properties, objectName)
 
-def performScan(context, dependencies_installed, properties):
+def performScan(context, properties):
     if properties.joinMeshes:
         # for large groups of objects it seems to be a good idea to join them into one
         # mesh to speed up performance
@@ -1388,9 +1307,9 @@ def performScan(context, dependencies_installed, properties):
             # delete the imported object as we copied it and don't need it anymore
             bpy.ops.object.delete({"selected_objects": [importedObject]})
 
-            modifyAndScan(context, dependencies_installed, properties, fileName)
+            modifyAndScan(context, properties, fileName)
     else:
-        modifyAndScan(context, dependencies_installed, properties, None)
+        modifyAndScan(context, properties, None)
 
 def scan_rotating(context, 
         scannerObject,
@@ -1465,7 +1384,7 @@ def scan_rotating(context,
     properties.destinationObject = destinationObject
     properties.targetObject = targetObject
 
-    performScan(context, dependencies_installed, properties)
+    performScan(context, properties)
 
 def scan_sonar(context, 
         scannerObject,
@@ -1544,7 +1463,7 @@ def scan_sonar(context,
     properties.destinationObject = destinationObject
     properties.targetObject = targetObject
 
-    performScan(context, dependencies_installed, properties)
+    performScan(context, properties)
 
 
 def scan_static(context, 
@@ -1627,7 +1546,7 @@ def scan_static(context,
     properties.destinationObject = destinationObject
     properties.targetObject = targetObject
 
-    performScan(context, dependencies_installed, properties)
+    performScan(context, properties)
 
 class WM_OT_GENERATE_POINT_CLOUDS(Operator):
     bl_label = "Generate point clouds"
@@ -1643,7 +1562,7 @@ class WM_OT_GENERATE_POINT_CLOUDS(Operator):
             startTime = time.time()
 
             
-        performScan(context, dependencies_installed, properties)
+        performScan(context, properties)
         
         """
         scan_static(
@@ -1742,7 +1661,7 @@ class OBJECT_PT_MAIN_PANEL(MAIN_PANEL, Panel):
  
     @classmethod
     def poll(self,context):
-        return context.object is not None and dependencies_installed
+        return context.object is not None
 
     def draw(self, context):
         layout = self.layout
@@ -2314,10 +2233,7 @@ class CUSTOM_objectCollection(PropertyGroup):
 
 # merge all classes to be displayed
 classes = (
-    WM_OT_INSTALL_DEPENDENCIES,
     WM_OT_LOAD_PRESET,
-
-    EXAMPLE_PT_DEPENDENCIES_PANEL,
 
     ScannerProperties,
     WM_OT_GENERATE_POINT_CLOUDS,
@@ -2346,57 +2262,12 @@ config = []
 def register():
     global config 
 
-    global dependencies_installed
-    dependencies_installed = False
-
     for cls in classes:
         bpy.utils.register_class(cls)
 
     bpy.types.Scene.scannerProperties = PointerProperty(type=ScannerProperties)
     bpy.types.Scene.custom = CollectionProperty(type=CUSTOM_objectCollection)
     bpy.types.Scene.custom_index = IntProperty()
-
-    missingDependency = None
-
-    try:
-        requirementsPath = os.path.join(pathlib.Path(__file__).parent.parent.absolute(), "requirements.txt")
-        print("Reading dependencies from {0}".format(requirementsPath))
-        requirementsFile = open(requirementsPath, 'r')
-        requirements = requirementsFile.readlines()
-
-        importName = None
-
-        # Strips the newline character
-        for requirement in requirements:
-            stripped = requirement.strip()
-
-            if stripped.startswith("#/"):
-                importName = stripped.split("#/")[1]
-                continue
-
-            if stripped.startswith("#") or not stripped:
-                continue
-
-            name, version = stripped.split("==")
-
-            if importName is None:
-                importName = name
-
-            print(f"Checking {name}: version {version}, import {importName}")
-
-            missingDependency = name
-            import_module(module_name=importName)
-
-            importName = None
-
-        dependencies_installed = True
-        missingDependency = None
-
-        print("All dependencies found.")
-    except ModuleNotFoundError:
-        print("ERROR: Missing dependency %s." % str(missingDependency))
-        # Don't register other panels, operators etc.
-        return
 
     # load scanner config file
     configPath = os.path.join(pathlib.Path(__file__).parent.absolute(), "presets.yaml")
